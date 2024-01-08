@@ -21,13 +21,12 @@ telegram_bot.on('*', async (msg) => {
 export function TelebotRouterDeco(command: string) {
   return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value;
-
+    
     descriptor.value = async function (msg: any,telegram_bot:telebot,loading_message:any) {      
       return await originalMethod.call(this,msg,telegram_bot,loading_message);
     };
 
     telegram_bot.on(`/${command}`, async (msg, props) => {
-      console.log(msg.text)
       let response;
 
       const loading_message = await telegram_bot.sendMessage(
@@ -36,7 +35,18 @@ export function TelebotRouterDeco(command: string) {
         { replyToMessage: msg.message_id }
       );
         
-      response = await descriptor.value.call(null, msg,telegram_bot,loading_message); 
+      response = await descriptor.value.call(null, msg,telegram_bot,loading_message);       
+
+      if(response instanceof Error){
+        telegram_bot.editMessageText(
+          {
+            chatId: loading_message.chat.id,
+            messageId: loading_message.message_id,
+          },
+          response.message,
+          {parseMode:"markdown"}
+        );         
+      }
 
       return response;
     });

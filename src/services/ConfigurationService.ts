@@ -5,13 +5,13 @@ import { env } from "../env-schema";
 export class ConfigurationService {
     async setRouterSwap(msg:any,telegram_bot:telebot,loading_message:any){        
         const [command, address] = msg.text.split(" ")
-        
+
         envUpdate([{
-            key:"ROUTER",
+            key:"ROUTERx",
             value:address
         }])
         env.ROUTER = address;
-        
+        throw new Error("uhu")
         return 200
     }
 }
