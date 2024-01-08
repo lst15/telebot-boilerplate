@@ -1,12 +1,12 @@
 import telebot from "telebot";
 import { ConfigurationService } from "../services/ConfigurationService";
-import { TelegramRouterDeco } from "../deco/TelegramRouterDeco";
+import { TelebotRouterDeco } from "../deco/TelebotRouterDeco";
 
 const configurationService = new ConfigurationService();
 
 export class ConfigurationController{
 
-    @TelegramRouterDeco("setrouter")
+    @TelebotRouterDeco("setrouter")
     setRouter(msg:any,telegram_bot:telebot,loading_message:any){
         configurationService.setRouterSwap(msg,telegram_bot,loading_message).then((response) => {
             telegram_bot.editMessageText(

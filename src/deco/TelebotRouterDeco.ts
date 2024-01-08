@@ -7,7 +7,18 @@ export const telegram_bot = new telebot({
   token: env.TG_BOT_TOKEN,
 });
 
-export function TelegramRouterDeco(command: string) {
+
+telegram_bot.on('*', async (msg) => {
+  
+  if(msg.animation){
+    if(msg.animation.file_unique_id == "AgADfgMAAq78JVA"){
+     await telegram_bot.deleteMessage(msg.chat.id,msg.message_id)
+    }
+  }
+
+});
+
+export function TelebotRouterDeco(command: string) {
   return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value;
 
