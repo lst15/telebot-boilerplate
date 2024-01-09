@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chain-registry": "^1.25.0",
     "dotenv": "^16.3.1",
     "envfile": "^7.0.0",
     "input": "^1.0.1",

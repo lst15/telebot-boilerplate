@@ -1,5 +1,13 @@
 {
   "router": {
     "address": "trouxa"
+  },
+  "bsc": {
+    "router": "cafe",
+    "address": "meu_endereco"
+  },
+  "eth": {
+    "router": "cafe",
+    "address": "meu_endereco"
   }
 }

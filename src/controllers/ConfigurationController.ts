@@ -25,5 +25,8 @@ export class ConfigurationController{
           }).catch(console.log)
       }
 
-
+      @TelebotRouterDeco("setconfig")
+      newConfig(msg:any,telegram_bot:telebot,loading_message:any){
+        configurationService.saveConfig(msg,telegram_bot,loading_message).catch(console.log)
+      }
 }
