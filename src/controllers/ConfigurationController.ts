@@ -3,6 +3,7 @@ import { ConfigurationService } from "../services/ConfigurationService";
 import { TelebotRouterDeco } from "../deco/TelebotRouterDeco";
 import { setRouterSwapDecoDTO } from "../deco/dto/setRouterSwapDecoDTO";
 import { GenericExceptionDeco } from "../deco/exceptions/GenericExceptionDeco";
+import { newConfigDecoDTO } from "../deco/dto/newConfigDecoDTO";
 
 const configurationService = new ConfigurationService();
 
@@ -25,8 +26,10 @@ export class ConfigurationController{
           }).catch(console.log)
       }
 
+      @GenericExceptionDeco()
+      @newConfigDecoDTO()
       @TelebotRouterDeco("setconfig")
-      newConfig(msg:any,telegram_bot:telebot,loading_message:any){
-        configurationService.saveConfig(msg,telegram_bot,loading_message).catch(console.log)
+      newConfig(configs:any){
+        configurationService.saveConfig(configs).catch(console.log)
       }
 }
