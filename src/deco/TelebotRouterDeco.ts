@@ -12,12 +12,12 @@ export function TelebotRouterDeco(command: string) {
     const originalMethod = descriptor.value;
 
     descriptor.value = async function (args: any) {
-      return await originalMethod.call(this, args);
+      return await originalMethod.call(this, ...args.split(" "));
     };
 
     telegram_bot.on(`/${command}`, async (msg, props) => {
       const [, command, args] = msg.text.match(/\/(\w+)\s(.+)/) || [];
-
+      
       const loading_message = await telegram_bot.sendMessage(
         msg.from.id,"Aguarde ...",{ replyToMessage: msg.message_id }
       );

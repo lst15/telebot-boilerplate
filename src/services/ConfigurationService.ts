@@ -7,4 +7,11 @@ const configurationRepository = new ConfigurationRepository()
 
 export class ConfigurationService {
 
+  loadConfigFile(file_configName:string){
+    configurationRepository.loadFile(file_configName);
+  }
+
+  getConfig_byName(key:string){
+    return configurationRepository.getConfig(key);
+  }
 }
