@@ -1,18 +1,18 @@
-export class UsersRepository {
-    private configurations: {[telegram_id:number]: {[key:string]:any}} = {};
+export class TempConfigurationRepository {
+    private configurations: {[configName:string]: {[key:string]:any}} = {};
 
-    setValue(telegram_id:number, container:{key:string,value:any}){
+    setConfig_byName(configName:number, config:{key:string,value:any}){
 
-        if(!this.configurations[telegram_id]){
-            this.configurations[telegram_id] = {}
+        if(!this.configurations[configName]){
+            this.configurations[configName] = {}
         }
 
-        this.configurations[telegram_id][container.key] = container.value;
-        return container;
+        this.configurations[configName][config.key] = config.value;
+        return config;
     }
 
-    getValue_byKey(telegram_id:number,key:string){
-        return this.configurations[telegram_id][key];
+    getConfig_byName(configName:string,key:string){
+        return this.configurations[configName][key];
     }
 
 }

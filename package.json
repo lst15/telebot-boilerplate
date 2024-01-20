@@ -15,6 +15,7 @@
     "chain-registry": "^1.25.0",
     "dotenv": "^16.3.1",
     "envfile": "^7.0.0",
+    "ethers": "^6.9.2",
     "input": "^1.0.1",
     "nconf": "^0.12.1",
     "telegram": "^2.19.10",
