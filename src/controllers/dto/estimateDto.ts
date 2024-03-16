@@ -10,7 +10,7 @@ export const estimateDto = async (arg:string) => {
     const functionName = args[0]
     const contractAddress:string = args[1]
 
-    if(!ethers.isAddress(contractAddress)) throw new Error("invalid address")
+    if(!ethers.isAddress(contractAddress) && functionName != "deploy") throw new Error("invalid address")
 
     return {
         functionName,
