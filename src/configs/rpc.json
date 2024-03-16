@@ -1,0 +1,43 @@
+{
+  "tbscNetwork": {
+    "http": "https://data-seed-prebsc-2-s1.bnbchain.org:8545",
+    "routerAddress": "0x9Ac64Cc6e4415144C455BD8E4837Fea55603e5c3",
+    "factoryAddress": "0xB7926C0430Afb07AA7DEfDE6DA862aE0Bde767bc",
+    "wethAddress": "0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd",
+    "blockscan": "https://testnet.bscscan.com/",
+    "decimals": 18
+  },
+  "goerliNetwork":{
+    "http":"https://goerli.infura.io/v3/a4f3a94cbc7c44d885b936854fd37153",
+    "routerAddress": "0x9Ac64Cc6e4415144C455BD8E4837Fea55603e5c3",
+    "factoryAddress": "0xB7926C0430Afb07AA7DEfDE6DA862aE0Bde767bc",
+    "wethAddress": "0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd",
+    "blockscan": "https://testnet.bscscan.com/",
+    "decimals": 18
+  },
+  "sepoliaNetwork":{
+    "http":"https://sepolia.infura.io/v3/a4f3a94cbc7c44d885b936854fd37153",
+    "routerAddress": "0x2f186C8Ce019C21eF20F7B59900Fb40348376ACD",
+    "factoryAddress": "0x7E0987E5b3a30e3f2828572Bb659A548460a3003",
+    "wethAddress": "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9",
+    "blockscan": "https://sepolia.etherscan.io/",
+    "decimals": 18
+  },
+  "defaultNetwork":  {
+    "http": "https://data-seed-prebsc-2-s1.bnbchain.org:8545",
+    "routerAddress": "0x9Ac64Cc6e4415144C455BD8E4837Fea55603e5c3",
+    "factoryAddress": "0xB7926C0430Afb07AA7DEfDE6DA862aE0Bde767bc",
+    "wethAddress": "0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd",
+    "blockscan": "https://testnet.bscscan.com/",
+    "decimals": 18
+  },
+  "ethNetwork":  {
+    "http": "https://mainnet.infura.io/v3/a4f3a94cbc7c44d885b936854fd37153",
+    "routerAddress": "0x9Ac64Cc6e4415144C455BD8E4837Fea55603e5c3",
+    "factoryAddress": "0xB7926C0430Afb07AA7DEfDE6DA862aE0Bde767bc",
+    "wethAddress": "0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd",
+    "blockscan": "https://testnet.bscscan.com/",
+    "decimals": 18
+  }
+}
+

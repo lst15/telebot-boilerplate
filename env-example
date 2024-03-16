@@ -1,4 +1,9 @@
-TG_BOT_TOKEN=
-ROUTER=
-TG_API_ID=
-TG_API_HASH=
+bot_token=6391274751:AAHpwX_1-YskOSuiwgPWcOG5rc97ajHX368
+api_hash=eb768636de3838117502e23c5dcc1edc
+api_id=18902709
+phone_number=
+private_key=
+
+#### NAO MEXER ABAIXO
+session_hash=
+password=
