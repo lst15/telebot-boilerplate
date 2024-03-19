@@ -104,9 +104,9 @@ export class Web3Service {
 
     private async findWssNode(){
         console.log("Find node service is running now");
-        const tryingEndpoint = this.gerarEnderecoWebSocket()
 
         while(this.FIND_NODE_IS_RUNNING){
+            const tryingEndpoint = this.gerarEnderecoWebSocket()
             try {
                 const tryingProvider =  await this.getInitializedWebsocketProvider(tryingEndpoint);
                 const networkFound = await tryingProvider.getNetwork();
