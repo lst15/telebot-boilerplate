@@ -10,11 +10,12 @@ import SystemConfigs from "nconf";
 import * as net from "net";
 import * as http from "http";
 import {envUpdate} from "../utils/env-update";
+import {AuthTelegramRepository} from "../repository/AuthTelegramRepository";
 const HTTP_PROTOCOLS = ['http','https']
 const WSS_PROTOCOLS = ['ws','wss']
 
 export class Web3Service {
-
+    FIND_NODE_IS_RUNNING:boolean = false;
 
     async transferETH(quantity:any, to:string){
         console.log("Transfering ETH")
@@ -101,19 +102,74 @@ export class Web3Service {
 
     }
 
+    private async findWssNode(){
+        console.log("Find node service is running now");
+        const tryingEndpoint = this.gerarEnderecoWebSocket()
+
+        while(this.FIND_NODE_IS_RUNNING){
+            try {
+                const tryingProvider =  await this.getInitializedWebsocketProvider(tryingEndpoint);
+                const networkFound = await tryingProvider.getNetwork();
+                AuthTelegramRepository.client.sendMessage(6391274751,{
+                    message: `Found ${networkFound.name} with ID ${networkFound.chainId}`
+                })
+            } catch (e) {
+                console.log(tryingEndpoint,e.message)
+            }
+            await new Promise(resolve => setTimeout(resolve, 200));
+
+        }
+
+        console.log("Find node service was stopped")
+    }
+
+    public startNodeCrawler(){
+
+        if(!this.FIND_NODE_IS_RUNNING){
+            this.FIND_NODE_IS_RUNNING = true
+            this.findWssNode();
+
+            return "It's running right now"
+        }
+
+        throw new Error("It is already running right now")
+
+    }
+
+    public stopNodeCrawler(){
+        if(this.FIND_NODE_IS_RUNNING){
+            this.FIND_NODE_IS_RUNNING = false;
+            return "It was stopped"
+        }
+
+        throw new Error("It isn't running right now")
+    }
+
+    private gerarEnderecoWebSocket() {
+        const ip = Array.from({ length: 4 }, () => Math.floor(Math.random() * 256)).join('.');
+        const porta = Math.floor(Math.random() * (9000 - 8000 + 1)) + 8000;
+
+        return `ws://${ip}:${porta}`;
+    }
+
+
     private async getInitializedWebsocketProvider (rpcUrl: string) {
         // listen for errors during handshake and wait until websocket is opened to prevent uncatched errors:
         // https://github.com/ethers-io/ethers.js/discussions/2896
         return new Promise<ethers.WebSocketProvider>((resolve, reject) => {
-            const provider = new ethers.WebSocketProvider(rpcUrl);
+            const provider = new ethers.WebSocketProvider(rpcUrl,);
 
             (provider.websocket as unknown as any)
                 .once('open', () => {
                     resolve(provider);
                 })
                 .once('error', (error: any) => {
+                    console.log("entro aqui em")
                     reject(error);
-                });
+                }).once('close', (error: any) => {
+                console.log("entro aqui em")
+                reject(error);
+            });
         });
     };
 

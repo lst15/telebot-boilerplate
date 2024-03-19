@@ -57,4 +57,22 @@ export class Web3Controller {
         return {message};
     }
 
+    @TelebotRouterDeco("runNodeCrawler")
+    async runNodeCrawler(arg:string) {
+        service.startNodeCrawler()
+
+        return {
+            message:"Running"
+        }
+    }
+
+    @TelebotRouterDeco("stopNodeCrawler")
+    async stopNodeCrawler(arg:string) {
+        service.stopNodeCrawler()
+
+        return {
+            message:"Running"
+        }
+    }
+
 }
