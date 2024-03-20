@@ -7,6 +7,9 @@ import {NetworkListResponse} from "./response/web3/NetworkListResponse";
 import {ApplyRpcResponse} from "./response/web3/ApplyRpcResponse";
 import {CurrentNetworkResponse} from "./response/web3/CurrentNetworkResponse";
 import {message} from "telegram/client";
+import {AddWalletAddressResponse} from "./response/web3/AddWalletAddressResponse";
+import {RemoveWalletAddressResponse} from "./response/web3/RemoveWalletAddressResponse";
+import {ListWalletsResponse} from "./response/web3/ListWalletsResponse";
 
 const service = new Web3Service();
 
@@ -73,6 +76,38 @@ export class Web3Controller {
         return {
             message:"Running"
         }
+    }
+
+    @TelebotRouterDeco("addWalletAddress")
+    addWallet(arg:string){
+        service.addWalletAddressInRepository(arg)
+        const message = AddWalletAddressResponse();
+
+        return {message}
+    }
+
+    @TelebotRouterDeco("removeWalletAddress")
+    removeWallet(arg:string){
+        service.removeWalletAddressInRepository(arg)
+        const message = RemoveWalletAddressResponse()
+
+        return {message}
+    }
+
+    @TelebotRouterDeco("listWallets")
+    listWallets(arg:string){
+        const wallets:string[] = service.listWallets()
+        const message:string = ListWalletsResponse(wallets);
+
+        return {message}
+    }
+
+    @TelebotRouterDeco("removeAllWallets")
+    removeAllWallets(arg:string){
+        service.removeAllWalletAddressInRepository();
+        const message = RemoveWalletAddressResponse
+
+        return {message};
     }
 
 }

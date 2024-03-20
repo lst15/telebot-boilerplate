@@ -21,10 +21,12 @@ Web3Repository.initialize(
     defaultRpcConfig.factoryAddress,
     defaultRpcConfig.wethAddress
 );
-//
+
 ContractRepository.initialize(
     defaultRpcConfig.factoryAddress,
-    Web3Repository.wallet
+    defaultRpcConfig.routerAddress,
+    defaultRpcConfig.usdAddress,
+    Web3Repository.wallet,
 );
 
 SolcRepository.initialize(

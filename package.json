@@ -20,7 +20,8 @@
     "nconf": "^0.12.1",
     "solc": "^0.8.14-fixed",
     "telegram": "^2.19.10",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "web3-providers-ws": "^4.0.7"
   },
   "devDependencies": {
     "@babel/core": "^7.23.7",

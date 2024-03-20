@@ -13,6 +13,7 @@ export class Web3Repository {
     public static networkFactoryAddress:string
     public static wethAddress:string
     public static deadAddress:string
+    public static walletAddresses:string[] = []
 
     static initialize(endpoint: string,decimals:number, networkRouterAddress:string,blockscan:string,factoryAddress:string,wethAddress:string){
         console.log("[Initializing] Web3Repository")

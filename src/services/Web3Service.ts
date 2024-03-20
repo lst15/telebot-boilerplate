@@ -1,16 +1,10 @@
-import {SolcCompilerService} from "./SolcCompilerService";
-import {CodeCreator} from "../contracts/CodeCreator";
 import {ethers} from "ethers";
-import {Erc20Abi} from "../contracts/abi/Erc20AbiContract";
 import {Web3Repository} from "../repository/Web3Repository";
-import {CreateRequestModel} from "../controllers/dto/CreateDto";
-import {RewriteFile} from "../utils/RewriteTXT";
-import {ContractService} from "./ContractService";
 import SystemConfigs from "nconf";
-import * as net from "net";
-import * as http from "http";
 import {envUpdate} from "../utils/env-update";
 import {AuthTelegramRepository} from "../repository/AuthTelegramRepository";
+import {ContractRepository} from "../repository/ContractRepository";
+
 const HTTP_PROTOCOLS = ['http','https']
 const WSS_PROTOCOLS = ['ws','wss']
 
@@ -29,6 +23,30 @@ export class Web3Service {
         return await tx.wait();
     }
 
+    public addWalletAddressInRepository(address:string){
+        if(!ethers.isAddress(address)) throw new Error("invalid address")
+        if(Web3Repository.walletAddresses.includes(address)) throw new Error("Address already added");
+
+        Web3Repository.walletAddresses.push(address);
+    }
+
+    public removeWalletAddressInRepository(address:string){
+
+        if(!ethers.isAddress(address)) throw new Error("invalid address")
+        if(!Web3Repository.walletAddresses.includes(address)) throw new Error("Address not added");
+
+        Web3Repository.walletAddresses = Web3Repository.walletAddresses.filter(walletAddress => walletAddress !== address);
+    }
+
+    public removeAllWalletAddressInRepository(){
+        if(Web3Repository.walletAddresses.length == 0) throw new Error("that haven't any addresses")
+        Web3Repository.walletAddresses = [];
+    }
+
+    public listWallets():string[] {
+        return Web3Repository.walletAddresses
+    }
+
     async waitBlockConfirmations(chainId:bigint, transaction:ethers.ContractTransactionResponse){
         console.log("Waiting blocks confirmation")
 
@@ -44,6 +62,7 @@ export class Web3Service {
     async changeNetwork(name:string){
 
         const rpc = SystemConfigs.get(name)
+
        if(!rpc) throw new Error("network not found in changeNetwork");
 
         Web3Repository.provider.destroy();
@@ -58,6 +77,7 @@ export class Web3Service {
         )
 
         await Web3Repository.provider.getNetwork()
+        ContractRepository.initialize(rpc.factoryAddress,rpc.routerAddress,rpc.usdAddress,Web3Repository.wallet)
 
     }
 
@@ -107,16 +127,29 @@ export class Web3Service {
 
         while(this.FIND_NODE_IS_RUNNING){
             const tryingEndpoint = this.gerarEnderecoWebSocket()
-            try {
-                const tryingProvider =  await this.getInitializedWebsocketProvider(tryingEndpoint);
-                const networkFound = await tryingProvider.getNetwork();
-                AuthTelegramRepository.client.sendMessage(6391274751,{
-                    message: `Found ${networkFound.name} with ID ${networkFound.chainId}`
-                })
-            } catch (e) {
-                console.log(tryingEndpoint,e.message)
-            }
-            await new Promise(resolve => setTimeout(resolve, 200));
+                this.getInitializedWebsocketProvider(tryingEndpoint).then(async (network) => {
+                    const networkFound = await network.getNetwork();
+                    AuthTelegramRepository.client.sendMessage(6391274751,{
+                        message: `Found ${networkFound.name} with ID ${networkFound.chainId}\n${tryingEndpoint}`
+                    })
+                }).catch((e) => {
+                    if(e.message.includes("connect") || e.message.includes("ECONNRESET")) {
+                        console.log("Tried: " + tryingEndpoint)
+                        return;
+                    }
+
+                    console.log(e.message)
+
+                    AuthTelegramRepository.client.sendMessage(6391274751,{
+                        message: `NodeCrawlerService found a unknow error, check the log`
+                    })
+
+                    this.FIND_NODE_IS_RUNNING = false;
+
+                });
+
+
+            await new Promise(resolve => setTimeout(resolve, 50));
 
         }
 
@@ -164,10 +197,8 @@ export class Web3Service {
                     resolve(provider);
                 })
                 .once('error', (error: any) => {
-                    console.log("entro aqui em")
                     reject(error);
                 }).once('close', (error: any) => {
-                console.log("entro aqui em")
                 reject(error);
             });
         });

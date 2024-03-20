@@ -15,6 +15,12 @@ import {estimateDto} from "./dto/estimateDto";
 import {BurnDto} from "./dto/BurnDto";
 import {BurnResponse} from "./response/contract/BurnResponse";
 import {AuthTelegramService} from "../services/AuthTelegramService";
+import {message} from "telegram/client";
+import {RemoveContractTokenResponse} from "./response/contract/RemoveContractTokenResponse";
+import {AddContractTokenResponse} from "./response/contract/AddContractToken";
+import {ContractTokenListResponse} from "./response/contract/ContractTokenList";
+import {WalletsAssetListResponse} from "./response/contract/WalletsAssetListResponse";
+import {AddContractTokenDto} from "./dto/AddContractTokenDto";
 
 const service = new ContractService();
 
@@ -79,8 +85,38 @@ export class ContractController {
     }
     async estimateRmLimits(arg:string){}
 
-    getContractCode(){
+    @TelebotRouterDeco("addContractToken")
+    addContractToken(arg:string){
+        const dto = AddContractTokenDto(arg);
 
+        service.addContractTokenInRepository(dto.address,dto.decimal);
+        const message = AddContractTokenResponse();
+
+        return {message};
+    }
+
+    // @TelebotRouterDeco("removeContractToken")
+    // removeContractToken(arg:string){
+    //     service.removeContractTokenInRepository(arg);
+    //     const message = RemoveContractTokenResponse()
+    //
+    //     return {message};
+    // }
+
+    @TelebotRouterDeco("listContracts")
+    listContracts(arg:string){
+        const contractAddresses:string[] = service.listContractTokensInRepository() as string[]
+        const message = ContractTokenListResponse(contractAddresses)
+
+        return {message}
+    }
+
+    @TelebotRouterDeco("test")
+   async test(arg:string){
+       const balances = await service.getBalanceOfContractsInRepository();
+       const message = WalletsAssetListResponse(balances)
+
+        return {message}
     }
 
 }
