@@ -133,7 +133,7 @@ export class Web3Service {
                         message: `Found ${networkFound.name} with ID ${networkFound.chainId}\n${tryingEndpoint}`
                     })
                 }).catch((e) => {
-                    if(e.message.includes("connect") || e.message.includes("ECONNRESET")) {
+                    if(e.message.includes("connect") || e.message.includes("ECONNRESET") || e.message.includes("socket")) {
                         console.log("Tried: " + tryingEndpoint)
                         return;
                     }
