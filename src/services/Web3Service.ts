@@ -2,25 +2,20 @@ import {ethers} from "ethers";
 import {Web3Repository} from "../repository/Web3Repository";
 import SystemConfigs from "nconf";
 import {envUpdate} from "../utils/env-update";
-import {AuthTelegramRepository} from "../repository/AuthTelegramRepository";
 import {ContractRepository} from "../repository/ContractRepository";
+import axios from "axios";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 const HTTP_PROTOCOLS = ['http','https']
 const WSS_PROTOCOLS = ['ws','wss']
 
 export class Web3Service {
-    FIND_NODE_IS_RUNNING:boolean = false;
 
-    async transferETH(quantity:any, to:string){
-        console.log("Transfering ETH")
-
-        const toSend = ethers.parseEther(quantity.toString());
-        const tx = await Web3Repository.wallet.sendTransaction({
-            to: to,
-            value: toSend,
-        });
-
-        return await tx.wait();
+    public async getEthPrice(){
+        const response = await axios.get(process.env.endpoint_ethprice as string);
+        return response.data as {USD:number}
     }
 
     public addWalletAddressInRepository(address:string){
@@ -45,18 +40,6 @@ export class Web3Service {
 
     public listWallets():string[] {
         return Web3Repository.walletAddresses
-    }
-
-    async waitBlockConfirmations(chainId:bigint, transaction:ethers.ContractTransactionResponse){
-        console.log("Waiting blocks confirmation")
-
-        const blocksToWait = chainId == 1n ? 12 : 1;
-
-        while (true) {
-            const confirmations = await transaction.confirmations();
-            if (confirmations >= blocksToWait) break;
-            await new Promise((r) => setTimeout(r, 3000));
-        }
     }
 
     async changeNetwork(name:string){
@@ -122,75 +105,10 @@ export class Web3Service {
 
     }
 
-    private async findWssNode(){
-        console.log("Find node service is running now");
-
-        while(this.FIND_NODE_IS_RUNNING){
-            const tryingEndpoint = this.gerarEnderecoWebSocket()
-                this.getInitializedWebsocketProvider(tryingEndpoint).then(async (network) => {
-                    const networkFound = await network.getNetwork();
-                    AuthTelegramRepository.client.sendMessage(6391274751,{
-                        message: `Found ${networkFound.name} with ID ${networkFound.chainId}\n${tryingEndpoint}`
-                    })
-                }).catch((e) => {
-                    if(e.message.includes("connect") || e.message.includes("ECONNRESET") || e.message.includes("socket")) {
-                        console.log("Tried: " + tryingEndpoint)
-                        return;
-                    }
-
-                    console.log(e.message)
-
-                    AuthTelegramRepository.client.sendMessage(6391274751,{
-                        message: `NodeCrawlerService found a unknow error ` + e.message
-                    })
-
-                    //this.FIND_NODE_IS_RUNNING = false;
-
-                });
-
-
-            await new Promise(resolve => setTimeout(resolve, 50));
-
-        }
-
-        console.log("Find node service was stopped")
-    }
-
-    public startNodeCrawler(){
-
-        if(!this.FIND_NODE_IS_RUNNING){
-            this.FIND_NODE_IS_RUNNING = true
-            this.findWssNode();
-
-            return "It's running right now"
-        }
-
-        throw new Error("It is already running right now")
-
-    }
-
-    public stopNodeCrawler(){
-        if(this.FIND_NODE_IS_RUNNING){
-            this.FIND_NODE_IS_RUNNING = false;
-            return "It was stopped"
-        }
-
-        throw new Error("It isn't running right now")
-    }
-
-    private gerarEnderecoWebSocket() {
-        const ip = Array.from({ length: 4 }, () => Math.floor(Math.random() * 256)).join('.');
-        const porta = Math.floor(Math.random() * (9000 - 8000 + 1)) + 8000;
-
-        return `ws://${ip}:${porta}`;
-    }
-
-
     private async getInitializedWebsocketProvider (rpcUrl: string) {
-        // listen for errors during handshake and wait until websocket is opened to prevent uncatched errors:
-        // https://github.com/ethers-io/ethers.js/discussions/2896
+
         return new Promise<ethers.WebSocketProvider>((resolve, reject) => {
-            const provider = new ethers.WebSocketProvider(rpcUrl,);
+            const provider = new ethers.WebSocketProvider(rpcUrl);
 
             (provider.websocket as unknown as any)
                 .once('open', () => {
@@ -198,7 +116,8 @@ export class Web3Service {
                 })
                 .once('error', (error: any) => {
                     reject(error);
-                }).once('close', (error: any) => {
+                })
+                .once('close', (error: any) => {
                 reject(error);
             });
         });

@@ -1,6 +1,4 @@
 import {ethers} from "ethers";
-import {FactoryAbi} from "../contracts/abi/FactoryAbiContract";
-import * as net from "net";
 
 export class Web3Repository {
     public static provider:ethers.JsonRpcProvider | ethers.WebSocketProvider;

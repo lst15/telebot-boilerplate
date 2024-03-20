@@ -7,24 +7,24 @@ interface ListWalletsResponseInterface {
         name:string,
         balance:bigint,
         decimal:number,
-        valueInUsd:ethers.Result
+        valueInUsd:number
     }[]
 }
 
 export const WalletsAssetListResponse = (listWalletsWithAssets:ListWalletsResponseInterface[]) => {
     let message = ""
-    let totalUsd = BigInt(0)
+    let totalUsd: number = 0;
     listWalletsWithAssets.forEach((walletWithAssets) => {
 
         message += "`" + walletWithAssets.address + "`\n";
         walletWithAssets.assets.forEach((asset) => {
 
-            message += "`" + asset.name + "`: " + ethers.formatUnits(asset.balance,asset.decimal) + " (UST$" + ethers.formatUnits(asset.valueInUsd[2],6) + ")\n";
-            totalUsd += asset.valueInUsd[2]
+            message += "`" + asset.name + "`: " + ethers.formatUnits(asset.balance,asset.decimal) + " (UST$" + asset.valueInUsd.toFixed(2) + ")\n";
+            totalUsd += asset.valueInUsd
         });
         message += "\n";
     })
-    message += "`Total in UST$: `" + ethers.formatUnits(totalUsd, 6) + "\n"
+    message += "`Total in UST$: `" + totalUsd.toFixed(2) + "\n"
     return message;
 
 }

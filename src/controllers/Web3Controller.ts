@@ -6,7 +6,6 @@ import {Web3Repository} from "../repository/Web3Repository";
 import {NetworkListResponse} from "./response/web3/NetworkListResponse";
 import {ApplyRpcResponse} from "./response/web3/ApplyRpcResponse";
 import {CurrentNetworkResponse} from "./response/web3/CurrentNetworkResponse";
-import {message} from "telegram/client";
 import {AddWalletAddressResponse} from "./response/web3/AddWalletAddressResponse";
 import {RemoveWalletAddressResponse} from "./response/web3/RemoveWalletAddressResponse";
 import {ListWalletsResponse} from "./response/web3/ListWalletsResponse";
@@ -58,24 +57,6 @@ export class Web3Controller {
         await service.setPrivateKey(arg);
         const message = "Private key set successfully";
         return {message};
-    }
-
-    @TelebotRouterDeco("runNodeCrawler")
-    async runNodeCrawler(arg:string) {
-        service.startNodeCrawler()
-
-        return {
-            message:"Running"
-        }
-    }
-
-    @TelebotRouterDeco("stopNodeCrawler")
-    async stopNodeCrawler(arg:string) {
-        service.stopNodeCrawler()
-
-        return {
-            message:"Running"
-        }
     }
 
     @TelebotRouterDeco("addWalletAddress")
