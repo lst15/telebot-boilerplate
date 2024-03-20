@@ -141,10 +141,10 @@ export class Web3Service {
                     console.log(e.message)
 
                     AuthTelegramRepository.client.sendMessage(6391274751,{
-                        message: `NodeCrawlerService found a unknow error, check the log`
+                        message: `NodeCrawlerService found a unknow error ` + e.shortMessage
                     })
 
-                    this.FIND_NODE_IS_RUNNING = false;
+                    //this.FIND_NODE_IS_RUNNING = false;
 
                 });
 
