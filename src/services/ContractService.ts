@@ -104,6 +104,7 @@ export class ContractService {
                 const amountsOutToEth = await this.getContractTransaction("getAmountsOut",3,false,ContractRepository.contractRouter,assetBalance,[tokenAddress.address,Web3Repository.wethAddress]);
                 this.validateAmountsOutToEth(amountsOutToEth);
                 const assetToEth = amountsOutToEth[1];
+                currentAsset.valueInUsd = assetToEth * ethUsdRate
             } else {
                 currentAsset.valueInUsd = 0;
             }
