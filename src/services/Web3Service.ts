@@ -180,7 +180,8 @@ export class Web3Service {
 
     private gerarEnderecoWebSocket() {
         const ip = Array.from({ length: 4 }, () => Math.floor(Math.random() * 256)).join('.');
-        const porta = Math.floor(Math.random() * (9000 - 8000 + 1)) + 8000;
+        const porta = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
+
 
         return `ws://${ip}:${porta}`;
     }
