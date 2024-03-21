@@ -72,7 +72,7 @@ export class ContractService {
 
     validateAmountsOutToEth(amountsOutToEth:bigint[]){
         if(!amountsOutToEth) throw new Error("Amounts Out to ETH is undefined")
-        if(amountsOutToEth[1]) throw new Error("Amounts Out on ETH is undefined")
+        if(!amountsOutToEth[1]) throw new Error("Amounts Out on ETH is undefined")
     }
 
     async getAssetsTokenOfAnAddress(walletAddress:string,ethUsdRate:number):Promise<any>{
