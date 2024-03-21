@@ -9,7 +9,7 @@ const service = new ContractService();
 
 export class ContractController {
 
-    @TelebotRouterDeco("addContractToken")
+    @TelebotRouterDeco("addtoken")
     addContractToken(arg:string){
         const dto = AddContractTokenDto(arg);
 
@@ -19,7 +19,7 @@ export class ContractController {
         return {message};
     }
 
-    @TelebotRouterDeco("listContracts")
+    @TelebotRouterDeco("tokenlist")
     listContracts(arg:string){
         const contractAddresses:string[] = service.listContractTokensInRepository() as string[]
         const message = ContractTokenListResponse(contractAddresses)
@@ -27,7 +27,11 @@ export class ContractController {
         return {message}
     }
 
-    @TelebotRouterDeco("getAllBalance")
+    removeToken(address:string) {
+
+    }
+
+    @TelebotRouterDeco("balance")
    async getAllBalance(arg:string){
        const balances = await service.getBalanceOfContractsInRepository();
        console.log(balances)
@@ -36,4 +40,9 @@ export class ContractController {
         return {message}
     }
 
+    @TelebotRouterDeco("removetoken")
+    async removeTOken(arg:string){
+        service.removeToken(arg);
+        return {message:"Removed"}
+    }
 }

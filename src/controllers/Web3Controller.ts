@@ -22,14 +22,6 @@ export class Web3Controller {
         return {message}
     }
 
-    @TelebotRouterDeco("getBalance")
-    async getBalance(arg:string){
-        const balance = await service.getBalance(arg)
-        const message = GetBalanceResponse(balance,Web3Repository.networkDecimals)
-
-        return {message}
-    }
-
     @TelebotRouterDeco("networkList")
     async networkList(arg:string){
         const networks = service.listNetworks();
@@ -59,7 +51,7 @@ export class Web3Controller {
         return {message};
     }
 
-    @TelebotRouterDeco("addWalletAddress")
+    @TelebotRouterDeco("addwallet")
     addWallet(arg:string){
         service.addWalletAddressInRepository(arg)
         const message = AddWalletAddressResponse();
@@ -67,15 +59,7 @@ export class Web3Controller {
         return {message}
     }
 
-    @TelebotRouterDeco("removeWalletAddress")
-    removeWallet(arg:string){
-        service.removeWalletAddressInRepository(arg)
-        const message = RemoveWalletAddressResponse()
-
-        return {message}
-    }
-
-    @TelebotRouterDeco("listWallets")
+    @TelebotRouterDeco("walletlist")
     listWallets(arg:string){
         const wallets:string[] = service.listWallets()
         const message:string = ListWalletsResponse(wallets);
@@ -83,10 +67,10 @@ export class Web3Controller {
         return {message}
     }
 
-    @TelebotRouterDeco("removeAllWallets")
-    removeAllWallets(arg:string){
-        service.removeAllWalletAddressInRepository();
-        const message = RemoveWalletAddressResponse
+    @TelebotRouterDeco("removewallet")
+    removeWallet(arg:string){
+        service.removeWalletAddressInRepository(arg);
+        const message = RemoveWalletAddressResponse()
 
         return {message};
     }

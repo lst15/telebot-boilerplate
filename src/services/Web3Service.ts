@@ -14,8 +14,14 @@ const WSS_PROTOCOLS = ['ws','wss']
 export class Web3Service {
 
     public async getEthPrice(){
-        const response = await axios.get(process.env.endpoint_ethprice as string);
-        return response.data as {USD:number}
+
+        try {
+            const response = await axios.get(process.env.endpoint_ethprice as string);
+            return response.data as {USD:number}
+        } catch (e) {
+            throw new Error("Error on catch ETH rate")
+        }
+
     }
 
     public addWalletAddressInRepository(address:string){
@@ -25,17 +31,18 @@ export class Web3Service {
         Web3Repository.walletAddresses.push(address);
     }
 
+    validHasAddressInRepository(){
+        const isValid:boolean = Web3Repository.walletAddresses.length == 0;
+        if(isValid)throw new Error("You need to set a walletAddress address");
+    }
+
     public removeWalletAddressInRepository(address:string){
+        this.validHasAddressInRepository()
 
         if(!ethers.isAddress(address)) throw new Error("invalid address")
         if(!Web3Repository.walletAddresses.includes(address)) throw new Error("Address not added");
 
         Web3Repository.walletAddresses = Web3Repository.walletAddresses.filter(walletAddress => walletAddress !== address);
-    }
-
-    public removeAllWalletAddressInRepository(){
-        if(Web3Repository.walletAddresses.length == 0) throw new Error("that haven't any addresses")
-        Web3Repository.walletAddresses = [];
     }
 
     public listWallets():string[] {
