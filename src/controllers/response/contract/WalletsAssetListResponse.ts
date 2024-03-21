@@ -19,7 +19,7 @@ export const WalletsAssetListResponse = (listWalletsWithAssets:ListWalletsRespon
         message += "`" + walletWithAssets.address + "`\n";
         walletWithAssets.assets.forEach((asset) => {
 
-            message += "`" + asset.name + "`: " + ethers.formatUnits(asset.balance,asset.decimal) + " (UST$" + asset.valueInUsd.toFixed(2) + ")\n";
+            message += "`" + asset.name + "`: " + asset.balance + " (UST$" + asset.valueInUsd.toFixed(2) + ")\n";
             totalUsd += asset.valueInUsd
         });
         message += "\n";

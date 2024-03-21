@@ -88,7 +88,7 @@ export class ContractService {
                 const ethBalance = await this.web3Service.getBalance(walletAddress);
 
                 currentAsset.name = "ETH"
-                currentAsset.balance = ethBalance;
+                currentAsset.balance = Number(ethers.formatUnits(ethBalance,Web3Repository.networkDecimals)).toFixed(3);
                 currentAsset.decimal = tokenAddress.decimal
                 currentAsset.valueInUsd = Number(ethers.formatUnits(ethBalance,tokenAddress.decimal)) * ethUsdRate
 
@@ -105,12 +105,14 @@ export class ContractService {
                 this.validateAmountsOutToEth(amountsOutToEth);
                 const assetToEth = amountsOutToEth[1];
                 currentAsset.valueInUsd = Number(ethers.formatUnits(assetToEth,Web3Repository.networkDecimals)) * ethUsdRate
+                currentAsset.balance = Number(ethers.formatUnits(assetBalance,tokenAddress.decimal)).toFixed(3);
+
             } else {
                 currentAsset.valueInUsd = 0;
+                currentAsset.balance = 0
             }
 
             currentAsset.name = contractName
-            currentAsset.balance = assetBalance;
             currentAsset.decimal = tokenAddress.decimal
 
             assets.push(currentAsset);
