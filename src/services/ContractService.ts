@@ -73,10 +73,21 @@ export class ContractService {
             const walletAddress = Web3Repository.walletAddresses[indexWalletAddress]
             const assets:any = []
 
+
             // @ts-ignore
             for(const contractInfo of ContractRepository.tokenAddresses.get(Web3Repository.networkName)){
                 const contractToken:ethers.Contract = new ethers.Contract(contractInfo.address,Erc20Abi,Web3Repository.wallet)
+                if(contractInfo.address.toLowerCase() == Web3Repository.wethAddress.toLowerCase()){
+                    const ethBalance = await this.web3Service.getBalance(walletAddress);
 
+                    assets.push({
+                        name:"ETH",
+                        balance:ethBalance,
+                        decimal:18,
+                        valueInUsd: Number(ethers.formatUnits(ethBalance,18)) * USD,
+                    })
+                    continue;
+                }
                 const contractName = await this.getContractTransaction("name",3,true,contractToken);
                 const walletAssetBalance = await this.getContractTransaction("balanceOf",3,false,contractToken,walletAddress);
                 const amountsOutToEth = await this.getContractTransaction("getAmountsOut",3,false,ContractRepository.contractRouter,walletAssetBalance,[contractInfo.address,Web3Repository.wethAddress]);
