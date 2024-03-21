@@ -149,7 +149,7 @@ export class Web3Service {
                 });
 
 
-            await new Promise(resolve => setTimeout(resolve, 5));
+            await new Promise(resolve => setTimeout(resolve, 10));
 
         }
 
