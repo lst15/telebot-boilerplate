@@ -100,14 +100,17 @@ export class ContractService {
             const contractName = await this.getContractTransaction("name",3,true,contract);
             const assetBalance = await this.getContractTransaction("balanceOf",3,false,contract,walletAddress);
 
-            const amountsOutToEth = await this.getContractTransaction("getAmountsOut",3,false,ContractRepository.contractRouter,assetBalance,[tokenAddress.address,Web3Repository.wethAddress]);
-            this.validateAmountsOutToEth(amountsOutToEth);
-            const assetToEth = amountsOutToEth[1];
+            if(assetBalance != 0n) {
+                const amountsOutToEth = await this.getContractTransaction("getAmountsOut",3,false,ContractRepository.contractRouter,assetBalance,[tokenAddress.address,Web3Repository.wethAddress]);
+                this.validateAmountsOutToEth(amountsOutToEth);
+                const assetToEth = amountsOutToEth[1];
+            } else {
+                currentAsset.valueInUsd = 0;
+            }
 
             currentAsset.name = contractName
             currentAsset.balance = assetBalance;
             currentAsset.decimal = tokenAddress.decimal
-            currentAsset.valueInUsd = Number(ethers.formatUnits(assetToEth,Web3Repository.networkDecimals)) * ethUsdRate
 
             assets.push(currentAsset);
         }
@@ -123,17 +126,17 @@ export class ContractService {
         const walletAssets: { address: string; assets: any; }[] = []
         let got = 0
 
-        // Web3Repository.walletAddresses.forEach(async (address) => {
-        //     const assets = await this.getAssetsTokenOfAnAddress(address,USD)
-        //     walletAssets.push({address, assets})
-        //     got += 1;
-        // })
-
-        for (const address of Web3Repository.walletAddresses) {
+        Web3Repository.walletAddresses.forEach(async (address) => {
             const assets = await this.getAssetsTokenOfAnAddress(address,USD)
             walletAssets.push({address, assets})
             got += 1;
-        }
+        })
+
+        // for (const address of Web3Repository.walletAddresses) {
+        //     const assets = await this.getAssetsTokenOfAnAddress(address,USD)
+        //     walletAssets.push({address, assets})
+        //     got += 1;
+        // }
 
         while(got != Web3Repository.walletAddresses.length){
             await new Promise((r) => setTimeout(r, 100));
