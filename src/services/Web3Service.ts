@@ -45,6 +45,12 @@ export class Web3Service {
         Web3Repository.walletAddresses = Web3Repository.walletAddresses.filter(walletAddress => walletAddress !== address);
     }
 
+    public clearWalletAdressesInRepository(){
+        this.validHasAddressInRepository()
+
+        Web3Repository.walletAddresses = []
+    }
+
     public listWallets():string[] {
         return Web3Repository.walletAddresses
     }

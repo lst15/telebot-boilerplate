@@ -75,4 +75,13 @@ export class Web3Controller {
         return {message};
     }
 
+    @TelebotRouterDeco("clearwallets")
+    clearWallets(arg:string){
+        service.clearWalletAdressesInRepository();
+        const message = RemoveWalletAddressResponse()
+
+        return {message};
+    }
+
+
 }

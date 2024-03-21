@@ -62,11 +62,11 @@ export class ContractService {
 
     validHasTokenAddressInRepository(){
         const tokenAddressesInNetwork =  ContractRepository.tokenAddresses.get(Web3Repository.networkName)
-
-        if(tokenAddressesInNetwork){
-            const isValid:boolean = tokenAddressesInNetwork.length == 0
-            if(isValid)throw new Error("You need to set a token address");
-        } else throw new Error("Network is undefined");
+        //
+        // if(tokenAddressesInNetwork){
+        //     const isValid:boolean = tokenAddressesInNetwork.length == 0
+        //     if(isValid)throw new Error("You need to set a token address");
+        // } else throw new Error("Network is undefined");
 
     }
 
@@ -152,6 +152,11 @@ export class ContractService {
 
         // @ts-ignore
         ContractRepository.tokenAddresses.set(Web3Repository.networkName,newAddresses)
+    }
+
+    clearTokens() {
+        this.validHasTokenAddressInRepository();
+        ContractRepository.tokenAddresses.set(Web3Repository.networkName,[])
     }
 
 }

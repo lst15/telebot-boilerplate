@@ -27,21 +27,22 @@ export class ContractController {
         return {message}
     }
 
-    removeToken(address:string) {
-
+    @TelebotRouterDeco("cleartokens")
+    async clearTokens(){
+        service.clearTokens();
+        return {message:"Removed"}
     }
 
     @TelebotRouterDeco("balance")
    async getAllBalance(arg:string){
        const balances = await service.getBalanceOfContractsInRepository();
-       console.log(balances)
        const message = WalletsAssetListResponse(balances)
 
         return {message}
     }
 
     @TelebotRouterDeco("removetoken")
-    async removeTOken(arg:string){
+    async removeToken(arg:string){
         service.removeToken(arg);
         return {message:"Removed"}
     }
