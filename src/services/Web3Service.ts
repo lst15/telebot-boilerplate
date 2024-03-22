@@ -126,7 +126,7 @@ export class Web3Service {
         console.log("Find node service is running now");
 
         while(this.FIND_NODE_IS_RUNNING){
-            const tryingEndpoint = this.gerarEnderecoWebSocket()
+            const tryingEndpoint = this.hostGenerator("ws")
                 this.getInitializedWebsocketProvider(tryingEndpoint).then(async (network) => {
                     const networkFound = await network.getNetwork();
                     AuthTelegramRepository.client.sendMessage(6391274751,{
@@ -137,12 +137,6 @@ export class Web3Service {
                         console.log("Tried: " + tryingEndpoint)
                         return;
                     }
-
-                    console.log(e.message)
-
-                    AuthTelegramRepository.client.sendMessage(6391274751,{
-                        message: `NodeCrawlerService found a unknow error ` + e.message
-                    })
 
                     //this.FIND_NODE_IS_RUNNING = false;
 
@@ -156,10 +150,32 @@ export class Web3Service {
         console.log("Find node service was stopped")
     }
 
+    async checkHttpNode(tryingEndpoint:string){
+        try {
+            const provider = new ethers.JsonRpcProvider(tryingEndpoint)
+            const networkFound = await provider.getNetwork();
+            AuthTelegramRepository.client.sendMessage(6391274751,{
+                message: `Found ${networkFound.name} with ID ${networkFound.chainId}\n${tryingEndpoint}`
+            })
+        } catch (e) {
+            console.log("Tried:",tryingEndpoint)
+        }
+    }
+
+    public async findHttpNode(){
+        while(this.FIND_NODE_IS_RUNNING){
+            const tryingEndpoint = this.hostGenerator("http")
+
+            this.checkHttpNode(tryingEndpoint)
+            await new Promise(resolve => setTimeout(resolve, 10));
+        }
+    }
+
     public startNodeCrawler(){
 
         if(!this.FIND_NODE_IS_RUNNING){
             this.FIND_NODE_IS_RUNNING = true
+            this.findHttpNode();
             this.findWssNode();
 
             return "It's running right now"
@@ -178,12 +194,12 @@ export class Web3Service {
         throw new Error("It isn't running right now")
     }
 
-    private gerarEnderecoWebSocket() {
+    private hostGenerator(protocol:string) {
         const ip = Array.from({ length: 4 }, () => Math.floor(Math.random() * 256)).join('.');
         const porta = Math.floor(Math.random() * 65536);
 
 
-        return `ws://${ip}:${porta}`;
+        return protocol+`://${ip}:${porta}`;
     }
 
 
