@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ad900fb5-fad2-4fbc-a967-9869d8f904b3" name="Changes" comment="zak tg contract manager">
+      <change beforePath="$PROJECT_DIR$/src/deco/TelebotRouterDeco.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/deco/TelebotRouterDeco.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="rpc-finder" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2dYunudGn3KkcpSMQocnWQUvqFB" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/home/leandro/Área de Trabalho/voidbot-father",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "/home/leandro/Área de Trabalho/telebot-boilerplate/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/controllers/response" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/controllers/response/web3" />
+      <recent name="$PROJECT_DIR$/src/controllers/response/contract" />
+      <recent name="$PROJECT_DIR$/src/contracts/abi" />
+      <recent name="$PROJECT_DIR$/src/repository" />
+      <recent name="$PROJECT_DIR$/src/repository/impl" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ad900fb5-fad2-4fbc-a967-9869d8f904b3" name="Changes" comment="" />
+      <created>1710197502322</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1710197502322</updated>
+      <workItem from="1710197503391" duration="17174000" />
+      <workItem from="1710265158401" duration="6000" />
+      <workItem from="1710268150494" duration="2000" />
+      <workItem from="1710287660120" duration="12379000" />
+      <workItem from="1710344405114" duration="3022000" />
+      <workItem from="1710358905264" duration="2000" />
+      <workItem from="1710369365939" duration="13908000" />
+      <workItem from="1710406718627" duration="3356000" />
+      <workItem from="1710426690524" duration="4050000" />
+      <workItem from="1710459877620" duration="4346000" />
+      <workItem from="1710468703890" duration="4201000" />
+      <workItem from="1710520411077" duration="3464000" />
+      <workItem from="1710542614014" duration="25606000" />
+      <workItem from="1710591846490" duration="19710000" />
+      <workItem from="1710713868846" duration="2218000" />
+      <workItem from="1710762216491" duration="2000" />
+      <workItem from="1710839165251" duration="3330000" />
+      <workItem from="1710861063078" duration="587000" />
+      <workItem from="1710863514984" duration="2188000" />
+      <workItem from="1710890855890" duration="10213000" />
+      <workItem from="1710902108906" duration="8784000" />
+      <workItem from="1710927475672" duration="678000" />
+      <workItem from="1710949705134" duration="2711000" />
+      <workItem from="1710964539917" duration="1069000" />
+      <workItem from="1710968868413" duration="4015000" />
+      <workItem from="1710973228333" duration="1138000" />
+      <workItem from="1710982283572" duration="3305000" />
+      <workItem from="1711033318381" duration="5549000" />
+      <workItem from="1711044264798" duration="1000" />
+      <workItem from="1711047646052" duration="23000" />
+      <workItem from="1711059602324" duration="8504000" />
+      <workItem from="1711123290895" duration="2375000" />
+      <workItem from="1711197407515" duration="191000" />
+      <workItem from="1711197605601" duration="824000" />
+    </task>
+    <task id="LOCAL-00001" summary="zak tg contract manager">
+      <option name="closed" value="true" />
+      <created>1710611116185</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1710611116185</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="zak tg contract manager" />
+    <option name="LAST_COMMIT_MESSAGE" value="zak tg contract manager" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/server.ts</url>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
