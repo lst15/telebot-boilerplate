@@ -27,7 +27,6 @@ export class Web3Service {
                 message: "Found a new RPC:\n\nName: `Solanna`\nRPC: " + endpoint
             })
         }).catch((e) => {
-            console.log(e)
             console.log("Tried in sol:",endpoint)
         })
 
