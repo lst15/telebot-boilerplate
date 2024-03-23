@@ -1,6 +1,8 @@
 import {ethers} from "ethers";
 import {Web3Repository} from "../repository/Web3Repository";
 import {AuthTelegramRepository} from "../repository/AuthTelegramRepository";
+import {Connection, PublicKey} from "@solana/web3.js";
+import * as net from "net";
 
 export class Web3Service {
     FIND_NODE_IS_RUNNING:boolean = false;
@@ -17,13 +19,27 @@ export class Web3Service {
         });
     }
 
+    testSolanaHttpEndpoint(endpoint:string){
+        const conn = new Connection(endpoint)
+
+        conn.getFirstAvailableBlock().then(() => {
+            AuthTelegramRepository.client.sendMessage(6391274751,{
+                message: "Found a new RPC:\n\nName: `Solanna`\nRPC: " + endpoint
+            })
+        }).catch((e) => {
+            console.log(e)
+            console.log("Tried in sol:",endpoint)
+        })
+
+    }
+
     async testHttpEndpoint(endpoint:string){
         try {
             const provider = new ethers.JsonRpcProvider(endpoint)
             const networkFound = await provider.getNetwork();
 
             AuthTelegramRepository.client.sendMessage(6391274751,{
-                message: `Found ${networkFound.name} with ID ${networkFound.chainId}\n${endpoint}`
+                message: "Found a new RPC:\n\nName: `" + networkFound.name + "`\nID: `" + networkFound.chainId + "`\nRPC: " + endpoint
             })
         } catch (e) {
             console.log("Tried:",endpoint)
@@ -33,8 +49,10 @@ export class Web3Service {
     public async runNodeCrawler(){
         while(this.FIND_NODE_IS_RUNNING) {
             const tryingEndpoint = this.hostGenerator()
+
             this.testHttpEndpoint("http://" + tryingEndpoint + ":8545")
             this.testWssEndpoint("ws://" + tryingEndpoint + ":8546")
+            this.testSolanaHttpEndpoint("http://" + tryingEndpoint + ":8899")
 
             await new Promise(resolve => setTimeout(resolve, 10));
         }
