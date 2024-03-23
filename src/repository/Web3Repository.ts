@@ -1,6 +1,4 @@
 import {ethers} from "ethers";
-import {FactoryAbi} from "../contracts/abi/FactoryAbiContract";
-import * as net from "net";
 
 export class Web3Repository {
     public static provider:ethers.JsonRpcProvider | ethers.WebSocketProvider;
@@ -12,13 +10,10 @@ export class Web3Repository {
     public static networkBlockscan:string;
     public static networkFactoryAddress:string
     public static wethAddress:string
-    public static deadAddress:string
-    public static walletAddresses:string[] = []
 
     static initialize(endpoint: string,decimals:number, networkRouterAddress:string,blockscan:string,factoryAddress:string,wethAddress:string){
         console.log("[Initializing] Web3Repository")
 
-        Web3Repository.deadAddress = "0x000000000000000000000000000000000000dEaD"
         Web3Repository.networkDecimals = decimals
         Web3Repository.networkRouterAddress = networkRouterAddress
         Web3Repository.networkBlockscan = blockscan
